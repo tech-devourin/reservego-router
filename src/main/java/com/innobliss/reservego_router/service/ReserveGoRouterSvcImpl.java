@@ -41,7 +41,7 @@ public class ReserveGoRouterSvcImpl {
 	@Value("${reservego.apikeyname}")
 	private String reserveGoApiKeyName;
 
-	private static final Logger logger = LoggerFactory.getLogger(ReserveGoRouterWebhookController.class);
+	private static final Logger logger = LoggerFactory.getLogger(ReserveGoRouterSvcImpl.class);
 
 // -----------------------------------------webhook apis starts here-----------------------------------------------------------------
 
@@ -52,6 +52,7 @@ public class ReserveGoRouterSvcImpl {
 			String url = config.getBaseUrl() + "/" + config.getAppName() + "/fetchalltables?rgRestaurantId="
 					+ rgRestaurantId + "&br_id=" + config.getBranchId();
 
+			logger.info("Forwarding fetchAllTables to branch URL: {}", url);
 			// hit the api and return the data
 			Object dto = webBuilder.build().get().uri(url).retrieve().bodyToMono(Object.class).block();
 
@@ -70,6 +71,7 @@ public class ReserveGoRouterSvcImpl {
 		if (config != null) {
 			String url = config.getBaseUrl() + "/" + config.getAppName() + "/fetchalltablesstatus?rgRestaurantId="
 					+ rgRestaurantId + "&br_id=" + config.getBranchId();
+			logger.info("Forwarding fetchalltablesstatus to branch URL: {}", url);
 			Object dto = webBuilder.build().get().uri(url).retrieve().bodyToMono(Object.class).block();
 			if (dto != null) {
 				return dto;
@@ -84,6 +86,7 @@ public class ReserveGoRouterSvcImpl {
 		if (config != null) {
 			String url = config.getBaseUrl() + "/" + config.getAppName() + "/fetchstatusbytables?rgRestaurantId="
 					+ rgRestaurantId + "&posTableIds=" + posTableIds;
+			logger.info("Forwarding fetchstatusbytables to branch URL: {}", url);
 			Object dto = webBuilder.build().get().uri(url).retrieve().bodyToMono(Object.class).block();
 			if (dto != null) {
 				return dto;
@@ -102,6 +105,7 @@ public class ReserveGoRouterSvcImpl {
 			String url = config.getBaseUrl() + "/" + config.getAppName() + "/seatCustomer?rgRestaurantId="
 					+ rgRestaurantId;
 
+			logger.info("Forwarding seatCustomer to branch URL: {}, payload: {}", url, requestDto);
 			Object dto = webBuilder.build().post().uri(url).contentType(MediaType.APPLICATION_JSON)
 					.bodyValue(requestDto).retrieve().bodyToMono(Object.class).block();
 
@@ -119,6 +123,7 @@ public class ReserveGoRouterSvcImpl {
 		if (config != null) {
 			String url = config.getBaseUrl() + "/" + config.getAppName() + "/advancePayment?rgRestaurantId="
 					+ rgRestaurantId;
+			logger.info("Forwarding advancePayment to branch URL: {}, payload: {}", url, advancepayDto);
 			Object dto = webBuilder.build().post().uri(url).contentType(MediaType.APPLICATION_JSON)
 					.bodyValue(advancepayDto).retrieve().bodyToMono(Object.class).block();
 			if (dto != null) {
@@ -137,7 +142,7 @@ public class ReserveGoRouterSvcImpl {
 			logRepo.save(log);
 		} catch (Exception e) {
 			// Catching exception so logging failure doesn't stop the main POS process
-			System.err.println("Failed to log ReserveGo payload: " + e.getMessage());
+			logger.error("Failed to log ReserveGo payload for endpoint {}: {}", endpoint, e.getMessage());
 		}
 	}
 
@@ -145,6 +150,7 @@ public class ReserveGoRouterSvcImpl {
 
 	public Object swapTables(Object requestDto) throws Exception {
 	    String url = reserveGoBaseUrl + "/api/bookings/reservation/table/swap";
+	    logger.info("Forwarding swapTables to ReserveGo URL: {}, payload: {}", url, requestDto);
 
 	    return webBuilder.build().post().uri(url).contentType(MediaType.APPLICATION_JSON)
 	            .bodyValue(addApiKeyToBody(requestDto)).retrieve().bodyToMono(Object.class).block();
@@ -152,6 +158,7 @@ public class ReserveGoRouterSvcImpl {
 
 	public Object invoice(Object requestDto) throws Exception {
 		String url = reserveGoBaseUrl + "/api/bookings/reservation/update/bill";
+		logger.info("Forwarding invoice to ReserveGo URL: {}, payload: {}", url, requestDto);
 
 		return webBuilder.build().post().uri(url).contentType(MediaType.APPLICATION_JSON)
 				.bodyValue(addApiKeyToBody(requestDto)).retrieve().bodyToMono(Object.class).block();
@@ -159,6 +166,7 @@ public class ReserveGoRouterSvcImpl {
 
 	public Object updateTableDetails(Object requestDto) throws Exception {
 		String url = reserveGoBaseUrl + "/api/bookings/reservation/table/update";
+		logger.info("Forwarding updateTableDetails to ReserveGo URL: {}, payload: {}", url, requestDto);
 
 		return webBuilder.build().post().uri(url).contentType(MediaType.APPLICATION_JSON)
 				.bodyValue(addApiKeyToBody(requestDto)).retrieve().bodyToMono(Object.class).block();
@@ -166,6 +174,7 @@ public class ReserveGoRouterSvcImpl {
 
 	public Object updateTableSectionDetails(Object requestDto) throws Exception {
 		String url = reserveGoBaseUrl + "/api/bookings/reservation/section/update";
+		logger.info("Forwarding updateTableSectionDetails to ReserveGo URL: {}, payload: {}", url, requestDto);
 
 		return webBuilder.build().post().uri(url).contentType(MediaType.APPLICATION_JSON)
 				.bodyValue(addApiKeyToBody(requestDto)).retrieve().bodyToMono(Object.class).block();
@@ -173,6 +182,7 @@ public class ReserveGoRouterSvcImpl {
 
 	public Object voidTable(Object requestDto) throws Exception {
 		String url = reserveGoBaseUrl + "/api/bookings/reservation/voidcheckin";
+		logger.info("Forwarding voidTable to ReserveGo URL: {}, payload: {}", url, requestDto);
 
 		return webBuilder.build().post().uri(url).contentType(MediaType.APPLICATION_JSON)
 				.bodyValue(addApiKeyToBody(requestDto)).retrieve().bodyToMono(Object.class).block();
@@ -182,17 +192,16 @@ public class ReserveGoRouterSvcImpl {
 
 		requestDto.put("rgApiKey", reserveGoApiKey);
 		String url = reserveGoBaseUrl + "/api/bookings/reservation/table/update/status";
-		System.out.println("-----> FORWARDING TABLE STATUS TO RESERVEGO AT: " + url);
-		System.out.println("-----> PAYLOAD: " + requestDto);
+		logger.info("Forwarding updateTableStatus to ReserveGo URL: {}, payload: {}", url, requestDto);
 
 		try {
 			// 3. Forward the request to ReserveGo via WebClient
 			Object response = webBuilder.build().post().uri(url).contentType(MediaType.APPLICATION_JSON)
 					.bodyValue(requestDto).retrieve().bodyToMono(Object.class).block();
-			System.out.println("-----> RESPONSE FROM RESERVEGO: " + response);
+			logger.info("Response from ReserveGo: {}", response);
 			return response;
 		} catch (Exception e) {
-			System.out.println("-----> ERROR CALLING RESERVEGO: " + e.getMessage());
+			logger.error("Error calling ReserveGo updateTableStatus: {}", e.getMessage());
 			throw e;
 		}
 	}

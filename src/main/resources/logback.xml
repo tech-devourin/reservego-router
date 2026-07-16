@@ -53,7 +53,13 @@
 
 	</appender>
 	
-	<logger name="com.devourin.onlineorder" level="debug"
+	<logger name="com.innobliss.reservego_router" level="debug"
+		additivity="false">
+		<appender-ref ref="FILE-AUDIT" />
+		<appender-ref ref="STDOUT" />
+	</logger>
+
+	<logger name="org.springframework" level="info"
 		additivity="false">
 		<appender-ref ref="FILE-AUDIT" />
 		<appender-ref ref="STDOUT" />

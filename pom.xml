@@ -10,10 +10,10 @@
        <relativePath /> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.devourin</groupId>
-    <artifactId>aggr-int</artifactId>
+    <artifactId>reservego_router</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>reservGo-integration</name>
-    <description>ReservGo integration with restaurant aggregators</description>
+    <description>ReservGo integration with Devourin</description>
     <url />
     <licenses>
        <license />
