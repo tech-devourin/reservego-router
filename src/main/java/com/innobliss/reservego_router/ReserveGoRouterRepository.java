@@ -5,8 +5,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ReserveGoRouterRepository extends JpaRepository<ReserveGoRouterPojo, Long>  {
+public interface ReserveGoRouterRepository extends JpaRepository<ReserveGoRouter, Long>  {
     
-    ReserveGoRouterPojo findByRgRestaurantId(String restaurantId);
+    ReserveGoRouter findByRgRestaurantId(String restaurantId);
 
 }

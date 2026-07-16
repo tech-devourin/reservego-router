@@ -8,7 +8,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "reservego_mapping")
-public class ReserveGoRouterPojo {
+public class ReserveGoRouter {
 	
 	    @Id
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)

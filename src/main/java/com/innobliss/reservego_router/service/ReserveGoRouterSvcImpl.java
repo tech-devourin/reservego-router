@@ -10,7 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import com.innobliss.reservego_router.ReserveGoRouterPojo;
+import com.innobliss.reservego_router.ReserveGoRouter;
 import com.innobliss.reservego_router.ReserveGoRouterRepository;
 import com.innobliss.reservego_router.ReserveGoWebhookLog;
 import com.innobliss.reservego_router.ReserveGoWebhookLogRepository;
@@ -46,7 +46,7 @@ public class ReserveGoRouterSvcImpl {
 // -----------------------------------------webhook apis starts here-----------------------------------------------------------------
 
 	public Object fetchAllTables(String rgRestaurantId) throws Exception {
-		ReserveGoRouterPojo config = repo.findByRgRestaurantId(rgRestaurantId);
+		ReserveGoRouter config = repo.findByRgRestaurantId(rgRestaurantId);
 
 		if (config != null) {
 			String url = config.getBaseUrl() + "/" + config.getAppName() + "/fetchalltables?rgRestaurantId="
@@ -65,7 +65,7 @@ public class ReserveGoRouterSvcImpl {
 	}
 
 	public Object fetchalltablesstatus(String rgRestaurantId) throws Exception {
-		ReserveGoRouterPojo config = repo.findByRgRestaurantId(rgRestaurantId);
+		ReserveGoRouter config = repo.findByRgRestaurantId(rgRestaurantId);
 
 		if (config != null) {
 			String url = config.getBaseUrl() + "/" + config.getAppName() + "/fetchalltablesstatus?rgRestaurantId="
@@ -79,7 +79,7 @@ public class ReserveGoRouterSvcImpl {
 	}
 
 	public Object fetchstatusesbytables(String rgRestaurantId, String posTableIds) throws Exception {
-		ReserveGoRouterPojo config = repo.findByRgRestaurantId(rgRestaurantId);
+		ReserveGoRouter config = repo.findByRgRestaurantId(rgRestaurantId);
 
 		if (config != null) {
 			String url = config.getBaseUrl() + "/" + config.getAppName() + "/fetchstatusbytables?rgRestaurantId="
@@ -95,7 +95,7 @@ public class ReserveGoRouterSvcImpl {
 	public Object seatcustomer(String rgRestaurantId, SeatCustomerRequestDto requestDto) throws Exception {
 
 		saveWebhookLog("/seatCustomer", requestDto);
-		ReserveGoRouterPojo config = repo.findByRgRestaurantId(rgRestaurantId);
+		ReserveGoRouter config = repo.findByRgRestaurantId(rgRestaurantId);
 
 		if (config != null) {
 
@@ -115,7 +115,7 @@ public class ReserveGoRouterSvcImpl {
 
 	public Object advancepayment(String rgRestaurantId, ReserveGoAdvancePaymentDto advancepayDto) throws Exception {
 		saveWebhookLog("/advancePayment", advancepayDto);
-		ReserveGoRouterPojo config = repo.findByRgRestaurantId(rgRestaurantId);
+		ReserveGoRouter config = repo.findByRgRestaurantId(rgRestaurantId);
 		if (config != null) {
 			String url = config.getBaseUrl() + "/" + config.getAppName() + "/advancePayment?rgRestaurantId="
 					+ rgRestaurantId;

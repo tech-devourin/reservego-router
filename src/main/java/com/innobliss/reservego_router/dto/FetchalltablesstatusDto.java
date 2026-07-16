@@ -2,7 +2,7 @@ package com.innobliss.reservego_router.dto;
 
 import java.util.List;
 
-public class fetchalltablesstatusDto {
+public class FetchalltablesstatusDto {
 	  private String rgRestaurantId;
 
 	    private List<PosTableDto> posTables;
