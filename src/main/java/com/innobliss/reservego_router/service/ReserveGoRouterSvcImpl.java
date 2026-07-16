@@ -1,5 +1,7 @@
 package com.innobliss.reservego_router.service;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -78,10 +80,24 @@ public class ReserveGoRouterSvcImpl {
 		ReserveGoRouter config = repo.findByRgRestaurantId(rgRestaurantId);
 
 		if (config != null) {
-			String url = config.getBaseUrl() + "/" + config.getAppName() + "/fetchstatusbytables?rgRestaurantId="
-					+ rgRestaurantId + "&posTableIds=" + posTableIds;
-			logger.info("Forwarding fetchstatusbytables to branch URL: {}", url);
-			Object dto = webBuilder.build().get().uri(url).retrieve().bodyToMono(Object.class).block();
+			String url = config.getBaseUrl() + "/" + config.getAppName() + "/fetchstatusbytables";
+			
+			Map<String, Object> payload = new HashMap<>();
+			payload.put("rgRestaurantId", rgRestaurantId);
+			if (posTableIds != null && !posTableIds.trim().isEmpty()) {
+				payload.put("posTableIds", Arrays.asList(posTableIds.split(",")));
+			} else {
+				payload.put("posTableIds", Arrays.asList());
+			}
+
+			logger.info("Forwarding fetchstatusbytables as POST to branch URL: {}, payload: {}", url, payload);
+			Object dto = webBuilder.build().post()
+					.uri(url)
+					.contentType(MediaType.APPLICATION_JSON)
+					.bodyValue(payload)
+					.retrieve()
+					.bodyToMono(Object.class)
+					.block();
 			if (dto != null) {
 				return dto;
 			}
