@@ -9,6 +9,8 @@ public class ReserveGoRouterMapper {
 
 	    private String baseUrl;
 
+	    private String rgApiKey;
+
 		public String getRgRestaurantId() {
 			return rgRestaurantId;
 		}
@@ -39,6 +41,14 @@ public class ReserveGoRouterMapper {
 
 		public void setBaseUrl(String baseUrl) {
 			this.baseUrl = baseUrl;
+		}
+
+		public String getRgApiKey() {
+			return rgApiKey;
+		}
+
+		public void setRgApiKey(String rgApiKey) {
+			this.rgApiKey = rgApiKey;
 		}
 	    
 	    

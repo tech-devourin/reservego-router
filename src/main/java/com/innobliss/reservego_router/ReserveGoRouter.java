@@ -21,6 +21,8 @@ public class ReserveGoRouter {
 	    private String appName;
 
 	    private String baseUrl;
+
+	    private String rgApiKey;
 	    
 	    public Long getId() {
 			return id;
@@ -61,4 +63,12 @@ public class ReserveGoRouter {
 	    public void setBaseUrl(String baseUrl) {
 	        this.baseUrl = baseUrl;
 	    }
+
+		public String getRgApiKey() {
+			return rgApiKey;
+		}
+
+		public void setRgApiKey(String rgApiKey) {
+			this.rgApiKey = rgApiKey;
+		}
 }

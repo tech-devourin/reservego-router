@@ -35,12 +35,6 @@ public class ReserveGoRouterSvcImpl {
 	@Value("${reservego.baseurl}")
 	private String reserveGoBaseUrl;
 
-	@Value("${reservego.apikey}")
-	private String reserveGoApiKey;
-
-	@Value("${reservego.apikeyname}")
-	private String reserveGoApiKeyName;
-
 	private static final Logger logger = LoggerFactory.getLogger(ReserveGoRouterSvcImpl.class);
 
 // -----------------------------------------webhook apis starts here-----------------------------------------------------------------
@@ -190,7 +184,7 @@ public class ReserveGoRouterSvcImpl {
 
 	public Object updateTableStatus(Map<String, Object> requestDto) throws Exception {
 
-		requestDto.put("rgApiKey", reserveGoApiKey);
+		addApiKeyToBody(requestDto);
 		String url = reserveGoBaseUrl + "/api/bookings/reservation/table/update/status";
 		logger.info("Forwarding updateTableStatus to ReserveGo URL: {}, payload: {}", url, requestDto);
 
@@ -209,7 +203,20 @@ public class ReserveGoRouterSvcImpl {
 	@SuppressWarnings("unchecked")
 	private java.util.Map<String, Object> addApiKeyToBody(Object requestDto) {
 		java.util.Map<String, Object> payload = (java.util.Map<String, Object>) requestDto;
-		payload.put("rgApiKey", reserveGoApiKey);
+		String rgRestaurantId = (String) payload.get("rgRestaurantId");
+		if (rgRestaurantId == null) {
+			rgRestaurantId = (String) payload.get("restaurantId");
+		}
+		if (rgRestaurantId != null) {
+			ReserveGoRouter config = repo.findByRgRestaurantId(rgRestaurantId);
+			if (config != null && config.getRgApiKey() != null) {
+				payload.put("rgApiKey", config.getRgApiKey());
+			} else {
+				logger.warn("No API Key mapping found for rgRestaurantId: {}", rgRestaurantId);
+			}
+		} else {
+			logger.warn("rgRestaurantId not found in request payload: {}", payload);
+		}
 		return payload;
 	}
 
