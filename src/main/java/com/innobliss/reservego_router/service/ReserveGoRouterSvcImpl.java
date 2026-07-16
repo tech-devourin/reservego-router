@@ -81,7 +81,7 @@ public class ReserveGoRouterSvcImpl {
 
 		if (config != null) {
 			String url = config.getBaseUrl() + "/" + config.getAppName() + "/fetchstatusbytables";
-			
+
 			Map<String, Object> payload = new HashMap<>();
 			payload.put("rgRestaurantId", rgRestaurantId);
 			if (posTableIds != null && !posTableIds.trim().isEmpty()) {
@@ -91,13 +91,8 @@ public class ReserveGoRouterSvcImpl {
 			}
 
 			logger.info("Forwarding fetchstatusbytables as POST to branch URL: {}, payload: {}", url, payload);
-			Object dto = webBuilder.build().post()
-					.uri(url)
-					.contentType(MediaType.APPLICATION_JSON)
-					.bodyValue(payload)
-					.retrieve()
-					.bodyToMono(Object.class)
-					.block();
+			Object dto = webBuilder.build().post().uri(url).contentType(MediaType.APPLICATION_JSON).bodyValue(payload)
+					.retrieve().bodyToMono(Object.class).block();
 			if (dto != null) {
 				return dto;
 			}
