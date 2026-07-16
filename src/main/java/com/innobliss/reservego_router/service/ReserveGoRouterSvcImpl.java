@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.innobliss.reservego_router.ReserveGoRouter;
@@ -21,6 +22,7 @@ import com.innobliss.reservego_router.dto.ReserveGoAdvancePaymentDto;
 import com.innobliss.reservego_router.dto.SeatCustomerRequestDto;
 
 @Service
+@Transactional
 public class ReserveGoRouterSvcImpl {
 
 	@Autowired
