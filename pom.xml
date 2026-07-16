@@ -10,10 +10,10 @@
        <relativePath /> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.devourin</groupId>
-    <artifactId>aggr-int</artifactId>
+    <artifactId>reservego_router</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>reservGo-integration</name>
-    <description>ReservGo integration with restaurant aggregators</description>
+    <description>ReservGo integration with Devourin</description>
     <url />
     <licenses>
        <license />
@@ -43,32 +43,6 @@
        <dependency>
           <groupId>org.springframework.boot</groupId>
           <artifactId>spring-boot-starter-webflux</artifactId>
-       </dependency>
-       <dependency>
-          <groupId>org.springframework.data</groupId>
-          <artifactId>spring-data-commons</artifactId>
-       </dependency>
-       <!-- https://mvnrepository.com/artifact/jakarta.validation/jakarta.validation-api -->
-       <dependency>
-          <groupId>javax.validation</groupId>
-          <artifactId>validation-api</artifactId>
-          <version>2.0.1.Final</version>
-       </dependency>
-       <dependency>
-          <groupId>org.jspecify</groupId>
-          <artifactId>jspecify</artifactId>
-          <version>1.0.0</version>  <!-- Check for latest version -->
-       </dependency>
-       <dependency>
-          <groupId>org.springdoc</groupId>
-          <artifactId>springdoc-openapi-ui</artifactId>
-          <version>1.7.0</version>  <!-- Compatible with Spring Boot 2.7.x and Java 8 -->
-       </dependency>
-
-       <dependency>
-          <groupId>org.openapitools</groupId>
-          <artifactId>jackson-databind-nullable</artifactId>
-          <version>0.2.6</version>
        </dependency>
        <dependency>
           <groupId>com.mysql</groupId>

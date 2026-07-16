@@ -26,8 +26,10 @@ public class ReservegoController {
 	@PostMapping("/swaptables")
 	public ResponseEntity<?> swapTables(@RequestBody Object requestDto) {
 		try {
+			logger.info("Router received swapTables from POS: {}", requestDto);
 			return ResponseEntity.ok(svc.swapTables(requestDto));
 		} catch (Exception e) {
+			logger.error("Router error routing swapTables: {}", e.getMessage());
 			return ResponseEntity.internalServerError().body(e.getMessage());
 		}
 	}
@@ -35,8 +37,10 @@ public class ReservegoController {
 	@PostMapping("/invoice")
 	public ResponseEntity<?> invoice(@RequestBody Object requestDto) {
 		try {
+			logger.info("Router received invoice from POS: {}", requestDto);
 			return ResponseEntity.ok(svc.invoice(requestDto));
 		} catch (Exception e) {
+			logger.error("Router error routing invoice: {}", e.getMessage());
 			return ResponseEntity.internalServerError().body(e.getMessage());
 		}
 	}
@@ -44,8 +48,10 @@ public class ReservegoController {
 	@PostMapping("/updateTableDetails")
 	public ResponseEntity<?> updateTableDetails(@RequestBody Object requestDto) {
 		try {
+			logger.info("Router received updateTableDetails from POS: {}", requestDto);
 			return ResponseEntity.ok(svc.updateTableDetails(requestDto));
 		} catch (Exception e) {
+			logger.error("Router error routing updateTableDetails: {}", e.getMessage());
 			return ResponseEntity.internalServerError().body(e.getMessage());
 		}
 	}
@@ -53,8 +59,10 @@ public class ReservegoController {
 	@PostMapping("/updateTableSectionDetails")
 	public ResponseEntity<?> updateTableSectionDetails(@RequestBody Object requestDto) {
 		try {
+			logger.info("Router received updateTableSectionDetails from POS: {}", requestDto);
 			return ResponseEntity.ok(svc.updateTableSectionDetails(requestDto));
 		} catch (Exception e) {
+			logger.error("Router error routing updateTableSectionDetails: {}", e.getMessage());
 			return ResponseEntity.internalServerError().body(e.getMessage());
 		}
 	}
@@ -74,8 +82,10 @@ public class ReservegoController {
 	@PostMapping("/voidTable")
 	public ResponseEntity<?> voidTable(@RequestBody Object requestDto) {
 		try {
+			logger.info("Router received voidTable from POS: {}", requestDto);
 			return ResponseEntity.ok(svc.voidTable(requestDto));
 		} catch (Exception e) {
+			logger.error("Router error routing voidTable: {}", e.getMessage());
 			return ResponseEntity.internalServerError().body(e.getMessage());
 		}
 	}
