@@ -1,5 +1,7 @@
 package com.innobliss.reservego_router.service;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -8,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.innobliss.reservego_router.ReserveGoRouter;
@@ -19,6 +22,7 @@ import com.innobliss.reservego_router.dto.ReserveGoAdvancePaymentDto;
 import com.innobliss.reservego_router.dto.SeatCustomerRequestDto;
 
 @Service
+@Transactional
 public class ReserveGoRouterSvcImpl {
 
 	@Autowired
@@ -78,10 +82,19 @@ public class ReserveGoRouterSvcImpl {
 		ReserveGoRouter config = repo.findByRgRestaurantId(rgRestaurantId);
 
 		if (config != null) {
-			String url = config.getBaseUrl() + "/" + config.getAppName() + "/fetchstatusbytables?rgRestaurantId="
-					+ rgRestaurantId + "&posTableIds=" + posTableIds;
-			logger.info("Forwarding fetchstatusbytables to branch URL: {}", url);
-			Object dto = webBuilder.build().get().uri(url).retrieve().bodyToMono(Object.class).block();
+			String url = config.getBaseUrl() + "/" + config.getAppName() + "/fetchstatusbytables";
+
+			Map<String, Object> payload = new HashMap<>();
+			payload.put("rgRestaurantId", rgRestaurantId);
+			if (posTableIds != null && !posTableIds.trim().isEmpty()) {
+				payload.put("posTableIds", Arrays.asList(posTableIds.split(",")));
+			} else {
+				payload.put("posTableIds", Arrays.asList());
+			}
+
+			logger.info("Forwarding fetchstatusbytables as POST to branch URL: {}, payload: {}", url, payload);
+			Object dto = webBuilder.build().post().uri(url).contentType(MediaType.APPLICATION_JSON).bodyValue(payload)
+					.retrieve().bodyToMono(Object.class).block();
 			if (dto != null) {
 				return dto;
 			}
