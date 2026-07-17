@@ -17,7 +17,6 @@ import com.innobliss.reservego_router.ReserveGoRouter;
 import com.innobliss.reservego_router.ReserveGoRouterRepository;
 import com.innobliss.reservego_router.ReserveGoWebhookLog;
 import com.innobliss.reservego_router.ReserveGoWebhookLogRepository;
-import com.innobliss.reservego_router.controller.ReserveGoRouterWebhookController;
 import com.innobliss.reservego_router.dto.ReserveGoAdvancePaymentDto;
 import com.innobliss.reservego_router.dto.SeatCustomerRequestDto;
 
@@ -48,7 +47,7 @@ public class ReserveGoRouterSvcImpl {
 
 		if (config != null) {
 			String url = config.getBaseUrl() + "/" + config.getAppName() + "/fetchalltables?rgRestaurantId="
-					+ rgRestaurantId + "&br_id=" + config.getBranchId();
+					+ rgRestaurantId + "&branchId=" + config.getBranchId();
 
 			logger.info("Forwarding fetchAllTables to branch URL: {}", url);
 			// hit the api and return the data
@@ -68,7 +67,7 @@ public class ReserveGoRouterSvcImpl {
 
 		if (config != null) {
 			String url = config.getBaseUrl() + "/" + config.getAppName() + "/fetchalltablesstatus?rgRestaurantId="
-					+ rgRestaurantId + "&br_id=" + config.getBranchId();
+					+ rgRestaurantId + "&branchId=" + config.getBranchId();
 			logger.info("Forwarding fetchalltablesstatus to branch URL: {}", url);
 			Object dto = webBuilder.build().get().uri(url).retrieve().bodyToMono(Object.class).block();
 			if (dto != null) {

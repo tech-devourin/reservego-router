@@ -1,8 +1,6 @@
 package com.innobliss.reservego_router;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -17,19 +15,6 @@ public class ApiKeyValidationFilter extends OncePerRequestFilter {
 
     private static final String API_KEY_HEADER = "api-key";
     private static final String VALID_API_KEY = "DEVOURINh9ko4E6AMpLeJay6bWklyE6KDmX9TlYFKpIQTikRJyBeevQvj1vRBZtzNHD1l3DAfjsz2NyCBQhAxk2lxfsx98w8jAHx2UJI54CISjy8dyIn5mEG9wRpA4ew";
-
-	List<String> protectedApis = Arrays.asList("/devourin/reservGo/v1/fetchalltables",
-			"/devourin/reservGo/v1/fetchalltablesstatus", "/devourin/reservGo/v1/fetchstatusbytables",
-			"/devourin/reservGo/v1/seatCustomer", "/devourin/reservGo/v1/advancePayment");
-	
-    @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-
-       String path = request.getServletPath();
-
-       // Filter ONLY these API
-       return !protectedApis.contains(path);
-    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
